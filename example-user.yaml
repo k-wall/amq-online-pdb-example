@@ -1,0 +1,12 @@
+apiVersion: user.enmasse.io/v1beta1
+kind: MessagingUser
+metadata:
+  name: example-space.guest
+spec:
+  username: guest
+  authentication:
+    type: password
+    password: Z3Vlc3Q= # Base64 encoded
+  authorization:
+    - addresses: ["*"]
+      operations: ["send", "recv", "manage"]

@@ -1,0 +1,9 @@
+apiVersion: enmasse.io/v1beta1
+kind: Address
+metadata:
+  name: example-space.example-partitioned-queue
+  addressSpace: standard
+spec:
+  address: example-partitioned-queue
+  type: queue
+  plan: standard-examplepartitioned-queue

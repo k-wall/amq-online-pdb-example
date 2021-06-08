@@ -1,0 +1,19 @@
+apiVersion: admin.enmasse.io/v1beta2
+kind: AddressSpacePlan
+metadata:
+  name: standard-example
+  labels:
+    app: enmasse
+spec:
+  displayName: Standard Example
+  displayOrder: 0
+  infraConfigRef: example
+  shortDescription: Messaging infrastructure based on Apache Qpid Dispatch Router and Apache ActiveMQ Artemis.
+  longDescription: Messaging infrastructure based on Apache Qpid Dispatch Router and Apache ActiveMQ Artemis. This plan allows an unlimited number of routers and brokers, and is suitable for applications where you do not want to impose any restrictions.
+  addressSpaceType: standard
+  resourceLimits:
+    router: 10000.0
+    broker: 10000.0
+    aggregate: 10000.0
+  addressPlans:
+    - standard-examplepartitioned-queue

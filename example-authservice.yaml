@@ -1,0 +1,12 @@
+apiVersion: admin.enmasse.io/v1beta1
+kind: AuthenticationService
+metadata:
+  name: example-authservice
+spec:
+  type: standard
+  standard:
+    storage:
+      claimName: example-authservice
+      deleteClaim: true
+      size: 1Gi
+      type: persistent-claim
