@@ -77,18 +77,20 @@ cli-rhea-receiver --count 30  --log-lib TRANSPORT_FRM --conn-ssl true --log-msgs
 ```
 {"durable":true,"priority":4,"ttl":null,"first-acquirer":null,"delivery-count":0,"id":null,"user-id":null,"address":"example-partitioned-queue","subject":null,"reply-to":null,"correlation-id":null,"content-type":"string","content-encoding":null,"absolute-expiry-time":null,"creation-time":null,"group-id":null,"group-sequence":null,"reply-to-group-id":null,"properties":{},"content":"pepa"}
   rhea:frames [connection-1]:0 -> disposition#15 {"role":true,"last":13,"settled":true,"state":[]}  +1ms
+  
+     # ^^ messages from broker running on the uncordoned node received.
+  
   rhea:frames [connection-1]:0 -> empty +4s
   rhea:frames [connection-1]:0 -> empty +4s
   rhea:frames [connection-1]:0 -> empty +4s
   rhea:frames [connection-1]:0 -> empty +4s
   
-   # ^^ messages from broker running on the uncordoned node received.
-   # <--  Broker returns to service here
+   # <--  Broker returns to service here (on alternative node)
  
   rhea:frames [connection-1]:0 <- transfer#14 {"delivery_id":14,"delivery_tag":{"type":"Buffer","data":[8,130,0,0,0,0,0,0]}} <Buffer 00 53 70 c0 07 05 41 40 40 40 52 01 00 53 73 d0 00 00 00 32 00 00 00 0d 40 40 a1 19 65 78 61 6d 70 6c 65 2d 70 61 72 74 69 74 69 6f 6e 65 64 2d 71 75 ... 41 more bytes> +192ms
 {"durable":true,"priority":4,"ttl":null,"first-acquirer":null,"delivery-count":1,"id":null,"user-id":null,"address":"example-partitioned-queue","subject":null,"reply-to":null,"correlation-id":null,"content-type":"string","content-encoding":null,"absolute-expiry-time":null,"creation-time":null,"group-id":null,"group-sequence":null,"reply-to-group-id":null,"properties":{},"content":"pepa"}
 
-   # ^^ messages from broker that has been scheduled elsewhere now received.
+   # ^^ messages from second broker now received
   
 ```
 
