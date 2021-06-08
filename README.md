@@ -6,11 +6,11 @@ This example configures AMQ Online with `maxUnavailable` `1` for both brokers an
 queue availability during an OpenShift Upgrade.  It does not achieve message availability.  Messages will be stranded on a broker whilst that node is upgrade,
 as soon the broker pod comes back, the messages will be available again.
 
-= Prereqiistes
+## Prereqiistes
 
 1.  https://github.com/rh-messaging/cli-rhea
 
-= Preparation
+## Preparation
 
 1. Install AMQ Online 1.7
 2. Clone this repo
@@ -22,7 +22,9 @@ git clone git@github.com:k-wall/amq-online-pdb-example.git
 oc apply -f amq-online-pdb-example
 ```
 
-= Demonstration
+## Demonstration
+
+Let's demonstrate the the queue remains available during an OpenShift Upgrade.  To simulate an OpenShift Upgrade, we'll use `oc adm cordon/drain`.
 
 1. After application of the YAML, the broker pods will look like this:
 
@@ -53,13 +55,15 @@ oc exec broker-4676ff5-cthm-0 -- /opt/amq/bin/artemis  queue stat   --user $(oc 
 ...
 |example-partitioned-queue|example-partitioned-queue|1              |14            |58             |0                |44             |0               |ANYCAST      
 ```
++
+Repeat for the other broker ensuring that the total message count across the two equals 30.
 
 4. Uncordon and drain a node containing a broker
 ```
-oc adm comdon ip-10-0-213-246.ec2.internal && oc adm drain ip-10-0-213-246.ec2.internal --delete-local-data --ignore-daemonsets
+oc adm cordon ip-10-0-213-246.ec2.internal && oc adm drain ip-10-0-213-246.ec2.internal --delete-local-data --ignore-daemonsets
 ```
 
-5. Immediately start a pod watch in one terminal and start a receiver another
+5. *Immediately* start a pod watch in one terminal and start a receiver another
 ```
 oc get pods -w
 ```
@@ -85,6 +89,7 @@ cli-rhea-receiver --count 30  --log-lib TRANSPORT_FRM --conn-ssl true --log-msgs
 
 ```
 
-
-oc exec broker-4676ff5-cthm-0 -- /opt/amq/bin/artemis  queue stat   --user $(oc get secret broker-support-4676ff5  --template='{{.data.username}}' | base64 --decode) --password $(oc get secret broker-support-4676ff5  --template='{{.data.password}}' | base64 --decode)
-
+7. Uncordon the node
+```
+oc adm uncordon ip-10-0-213-246.ec2.internal 
+```
