@@ -6,6 +6,10 @@ This example configures AMQ Online with `maxUnavailable` `1` for both brokers an
 queue availability during an OpenShift Upgrade.  It does not achieve message availability.  Messages will be stranded on a broker whilst that node is upgrade,
 as soon the broker pod comes back, the messages will be available again.
 
+AMQ Online *prefers* that brokers are run on separate nodes (anti-affinity).  If there are more brokers than nodes, the kubernetes scheduler will have no choice
+than to co-locate brokers.  This could result in partitions from the same queue being scheduled to the same node which may lead to a queue unavailability during upgrade.
+
+
 ## Prereqiistes
 
 1.  https://github.com/rh-messaging/cli-rhea
